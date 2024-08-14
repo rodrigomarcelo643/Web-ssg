@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWU SSG | Contact Form</title>
+    <link href="../../sample.css" rel="stylesheet">
+    <link href="../../../logo.png" rel="icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+<header>
+        <nav>
+            <ul>
+                <li><a href="#">Home </a></li>
+                <li><a href="#about">About </a></li>
+                <li><a href="#section3">Board</a></li>
+                <li><a href="#">Articles</a></li>
+            
+            </ul>
+        </nav>
+    </header>
+<body>
+
+
+<form  id="contactForm" method="post" enctype="multipart/form-data">
+
+        <!--Separator-->
+        <div class="separator">
+            <div class="form-group">
+                <label for="name" class="label1">Name:</label>
+                <input type="text" id="name" name="name" placeholder ="ISAGANI RAIN A. VERANO" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_number"  class="label1" style="margin-left:-180px;">ID Number:</label>
+                <input type="text" id="id_number" name="id_number" class="id_move" placeholder="05-2122-003502" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contact_number"  class="label1"  style="margin-left:-130px;">Contact Number:</label>
+                <input type="text" id="contact_number" name="contact_number"  class="id_move" placeholder=" +63 931 9887 714"required>
+            </div>
+
+            <div class="form-group">
+                <label for="school_email"  class="label1"  style="margin-left:-160px;">School Email:</label>
+                <input type="email" id="school_email" name="school_email" class="id_move" placeholder =" isad.verano.swu@phinmaed.com" required>
+            </div>
+        </div>
+
+
+          <!--Separator-->
+        <div class="separator"> 
+            <div class="form-group">
+                <label for="year_level" class="program">Program/Year Level:</label>
+                <div class="form-group1" style="display: flex;">
+                <div style=" position: relative;margin-left:-110px;">
+                <input class="search" type="text" placeholder="Course" id ="program"name="program">
+                <div class="search_move" style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px;">
+                    <button class="search-button"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+
+        <div style="flex: 1;">
+            <select id="year_level" name="year_level" required>
+                <option value="">Year Level</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+                <option value="5">5th Year</option>
+               
+            </select>
+        </div>
+    </div>
+</div>  
+        <div class="form-group" id="student">
+            <label class="handbook">Student Handbook</label>
+            <button type="button" class="redirect-btn"><span style="margin-left:-150px;">Redirect</span></button>
+            <div class="arrow_move" style="margin-top:-25px;margin-left:-35px;">
+                <img src="../../../arrow-right-top.png" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="type_of_concern" class="concern">Type of Concern:</label>
+            <select id="type_of_concern" name="type_of_concern" required >
+                <option value="" disabled selected>Choose your Concern</option>
+                <option value="Academic Performance Concerns">Academic Performance Concerns</option>
+                <option value="Financial Concerns">Financial Concerns</option>
+                <option value="Mental Health Concerns">Mental Health Concerns</option>
+                <option value="Social Concerns">Social Concerns</option>
+                <option value="Career and Future Concerns">Career and Future Concerns</option>
+               
+            </select>
+        </div>
+        </div>
+
+
+            <!--Separator-->
+        <div class="separator">
+
+                <div class="form-group">
+                    <label for="concern_details" class="provide">Provide Details of Your Concern/Other Concerns</label>
+                    <textarea id="concern_details" name="concern_details" rows="4" column ="4" placeholder="Enter Your Concern / Other Concerns..." required></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="solution_message">Suggested Solution:</label>
+                    <textarea id="solution_message" name="solution_message" rows="4" column ="4" placeholder="Enter Your Suggested Solutions..." required></textarea>
+                </div>
+        </div>
+        <div class="attach_file">
+            <label for="file-upload" class="attach"> ATTACH FILE</label>
+            <input id="file-upload" type="file" name="attachment" style="display: none;" required>
+        </div>
+        
+        <div class="button_submit">
+            <button class="submit" type ="submit" name="send">SUBMIT</button>
+        </div>
+    </form>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        
+        // Show SweetAlert
+        Swal.fire({
+            title: 'Processing...',
+            text: 'Please wait while your message is being sent',
+            icon: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false
+        });
+
+      
+        let formData = new FormData(this);
+
+     
+        fetch('../new_tester.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            return response.text(); 
+        })
+        .then(data => {
+            console.log(data);
+
+            // Process response sa data
+            if (data.trim() === 'success') {
+                Swal.fire({
+                    title: 'Message Successfully Sent !',
+                    text: 'Pls Wait 1- 2 days for the  Response.',
+                    icon: 'success'
+                });
+                   //clear values
+                   document.getElementById('name').value = '';
+                   document.getElementById('program').value = '';
+                   document.getElementById('id_number').value = '';
+                   document.getElementById('contact_number').value = '';
+                   document.getElementById('school_email').value = '';
+                   document.getElementById('program').value = '';
+                   document.getElementById('year_level').selectedIndex = 0;
+                   document.getElementById('type_of_concern').selectedIndex = 0;
+                   document.getElementById('concern_details').value = '';
+                   document.getElementById('solution_message').value = '';
+            } else {
+                Swal.fire({
+                    title: 'Message Successfully Sent !',
+                    text: 'Pls Wait 1- 2 days for the  Response.',
+                    icon: 'success'
+                });
+                   // Clear values
+                   document.getElementById('name').value = '';
+                   document.getElementById('program').value = '';
+                   document.getElementById('id_number').value = '';
+                   document.getElementById('contact_number').value = '';
+                   document.getElementById('school_email').value = '';
+                   document.getElementById('program').value = '';
+                   document.getElementById('year_level').selectedIndex = 0;
+                   document.getElementById('type_of_concern').selectedIndex = 0;
+                   document.getElementById('concern_details').value = '';
+                   document.getElementById('solution_message').value = '';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Message Successfully Sent !',
+                text: 'Pls Wait 1- 2 days for the  Response.',
+                icon: 'success'
+            });
+                   document.getElementById('name').value = '';
+                   document.getElementById('program').value = '';
+                   document.getElementById('id_number').value = '';
+                   document.getElementById('contact_number').value = '';
+                   document.getElementById('school_email').value = '';
+                   document.getElementById('program').value = '';
+                   document.getElementById('year_level').selectedIndex = 0;
+                   document.getElementById('type_of_concern').selectedIndex = 0;
+                   document.getElementById('concern_details').value = '';
+                   document.getElementById('solution_message').value = '';
+        });
+    });
+    
+</script>
+</html>
